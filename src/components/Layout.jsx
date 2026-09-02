@@ -72,10 +72,10 @@ export default function Layout() {
         <div style={{ padding: 'var(--spacing-4)', borderTop: '1px solid var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', marginBottom: 'var(--spacing-4)' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.875rem' }}>
-              {(user?.name || user?.email || 'U')[0].toUpperCase()}
+              {(user?.user_metadata?.name || user?.name || user?.email || 'U')[0].toUpperCase()}
             </div>
             <div style={{ overflow: 'hidden' }}>
-              <div style={{ fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{user?.name || user?.email}</div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{user?.user_metadata?.name || user?.name || user?.email}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{user?.role === 'admin' ? 'Administrador' : 'Usuário'}</div>
             </div>
           </div>
