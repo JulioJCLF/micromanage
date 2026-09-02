@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabaseMock } from '../services/api';
 import { Link } from 'react-router-dom';
 import { Plus, Clock, FolderKanban, CheckSquare } from 'lucide-react';
+import { handleError } from '../utils/errors';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -37,18 +38,33 @@ export default function Dashboard() {
 
   const handleCreateProject = async (e) => {
     e.preventDefault();
-    await supabaseMock.projects.create({
-      name: newProjectName,
-      description: newProjectDesc,
-      template: newProjectTemplate,
-      user_id: user.id,
-      status: 'active'
-    });
-    setNewProjectName('');
-    setNewProjectDesc('');
-    setNewProjectTemplate('default');
-    setIsModalOpen(false);
-    loadData();
+    try {
+      const { data, error } = await supabaseMock.projects.create({
+        name: newProjectName,
+        description: newProjectDesc,
+        user_id: user.id
+      });
+      if (error) throw error;
+      
+      // se foi criado com template, nós poderiamos criar as colunas aqui.
+      // por enquanto, vamos apenas criar colunas padrao
+      const defaultCols = ['A Fazer', 'Em Andamento', 'Concluído'];
+      for (let i = 0; i < defaultCols.length; i++) {
+        await supabaseMock.columns.create({
+          project_id: data.id,
+          name: defaultCols[i],
+          order: i
+        });
+      }
+
+      setNewProjectName('');
+      setNewProjectDesc('');
+      setNewProjectTemplate('default');
+      setIsModalOpen(false);
+      loadData();
+    } catch (error) {
+      handleError(error, 'Erro ao criar projeto');
+    }
   };
 
   const handleProjectSelect = async (projectId) => {
