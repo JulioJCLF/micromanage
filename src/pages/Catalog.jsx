@@ -5,7 +5,7 @@ import { Package, Plus, Calculator, Trash2, Edit2, Settings } from 'lucide-react
 import toast from 'react-hot-toast';
 
 export default function Catalog() {
-  const { user } = useAuth();
+  const { user, currentTenant } = useAuth();
   const [parts, setParts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,8 +36,9 @@ export default function Catalog() {
   });
 
   const loadData = async () => {
+    if (!currentTenant) return;
     setLoading(true);
-    const { data } = await supabaseMock.catalog.list(user.id);
+    const { data } = await supabaseMock.catalog.list(currentTenant.id);
     setParts(data);
     
     // Load config
@@ -51,7 +52,7 @@ export default function Catalog() {
 
   useEffect(() => {
     loadData();
-  }, [user.id]);
+  }, [currentTenant]);
 
   const saveConfig = (e) => {
     e.preventDefault();
@@ -123,6 +124,7 @@ export default function Catalog() {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!currentTenant) return;
     try {
       const partData = {
         name,
@@ -131,15 +133,16 @@ export default function Catalog() {
         print_time: parseFloat(printTime),
         spool_price: parseFloat(spoolPrice),
         extra_costs: parseFloat(extraCosts) || 0,
-        custom_margin: customMargin !== '' ? parseFloat(customMargin) : null
+        custom_margin: customMargin !== '' ? parseFloat(customMargin) : null,
       };
 
       if (editingPart) {
         await supabaseMock.catalog.update(editingPart.id, partData);
         toast.success('Peça atualizada com sucesso!');
       } else {
-        await supabaseMock.catalog.create({ ...partData, user_id: user.id });
-        toast.success('Peça cadastrada no catálogo!');
+        partData.tenant_id = currentTenant.id;
+        await supabaseMock.catalog.create(partData);
+        toast.success('Peça adicionada ao catálogo!');
       }
       
       setIsModalOpen(false);

@@ -8,8 +8,9 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 // We keep the same object structure so we don't have to rewrite all the UI components.
 export const supabaseMock = {
   projects: {
-    async list(userId) {
-      const { data, error } = await supabase.from('projects').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+    async list(tenantId) {
+      if (!tenantId) return { data: [], error: null };
+      const { data, error } = await supabase.from('projects').select('*').eq('tenant_id', tenantId).order('created_at', { ascending: false });
       return { data, error };
     },
     async get(id) {
@@ -46,10 +47,9 @@ export const supabaseMock = {
       const { data, error } = await supabase.from('cards').select('*').eq('project_id', projectId).order('order', { ascending: true });
       return { data, error };
     },
-    async listAll(userId) {
-      // In a real app with proper RLS, you'd just select from cards where project.user_id = userId
-      // For now we can fetch all projects for this user, then fetch cards.
-      const { data: projects } = await supabase.from('projects').select('id').eq('user_id', userId);
+    async listAll(tenantId) {
+      if (!tenantId) return { data: [], error: null };
+      const { data: projects } = await supabase.from('projects').select('id').eq('tenant_id', tenantId);
       if (!projects || projects.length === 0) return { data: [], error: null };
       
       const projectIds = projects.map(p => p.id);
@@ -97,8 +97,9 @@ export const supabaseMock = {
   },
 
   catalog: {
-    async list(userId) {
-      const { data, error } = await supabase.from('catalog').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+    async list(tenantId) {
+      if (!tenantId) return { data: [], error: null };
+      const { data, error } = await supabase.from('catalog').select('*').eq('tenant_id', tenantId).order('created_at', { ascending: false });
       return { data, error };
     },
     async create(partData) {

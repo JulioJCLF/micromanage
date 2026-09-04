@@ -6,14 +6,13 @@ import { Plus, Clock, FolderKanban, CheckSquare } from 'lucide-react';
 import { handleError } from '../utils/errors';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, currentTenant } = useAuth();
   const [projects, setProjects] = useState([]);
   const [recentCards, setRecentCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectDesc, setNewProjectDesc] = useState('');
-  const [newProjectTemplate, setNewProjectTemplate] = useState('default');
 
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -22,11 +21,12 @@ export default function Dashboard() {
   const [selectedColumnId, setSelectedColumnId] = useState('');
 
   const loadData = async () => {
+    if (!currentTenant) return;
     setLoading(true);
-    const { data: projData } = await supabaseMock.projects.list(user.id);
+    const { data: projData } = await supabaseMock.projects.list(currentTenant.id);
     setProjects(projData);
 
-    const { data: cardsData } = await supabaseMock.cards.listAll(user.id);
+    const { data: cardsData } = await supabaseMock.cards.listAll(currentTenant.id);
     // Get 5 most recent cards
     setRecentCards(cardsData.slice(0, 5));
     setLoading(false);
@@ -34,15 +34,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadData();
-  }, [user.id]);
+  }, [currentTenant]);
 
   const handleCreateProject = async (e) => {
     e.preventDefault();
+    if (!currentTenant) return;
     try {
       const { data, error } = await supabaseMock.projects.create({
         name: newProjectName,
         description: newProjectDesc,
-        user_id: user.id
+        tenant_id: currentTenant.id
       });
       if (error) throw error;
       
@@ -59,7 +60,6 @@ export default function Dashboard() {
 
       setNewProjectName('');
       setNewProjectDesc('');
-      setNewProjectTemplate('default');
       setIsModalOpen(false);
       loadData();
     } catch (error) {
