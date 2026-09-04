@@ -51,7 +51,10 @@ export default function Login() {
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: 'var(--spacing-2)' }}>Senha</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-2)' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500 }}>Senha</label>
+              <Link to="/forgot-password" style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 500 }}>Esqueceu a senha?</Link>
+            </div>
             <input 
               type="password" 
               className="input-field" 
