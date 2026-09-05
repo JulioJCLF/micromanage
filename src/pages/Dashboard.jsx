@@ -112,7 +112,7 @@ export default function Dashboard() {
           <h1>Dashboard</h1>
           <p>Visão geral dos seus projetos e tarefas recentes.</p>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
+        <div className="header-actions" style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
           <button className="btn btn-secondary" onClick={() => {
             setIsTaskModalOpen(true);
             if (projects.length > 0) {

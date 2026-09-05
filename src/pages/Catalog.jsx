@@ -176,7 +176,7 @@ export default function Catalog() {
           </h1>
           <p>Gerencie suas peças impressas, biblioteca de STL e custos de produção.</p>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
+        <div className="header-actions" style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
           <button className="btn btn-secondary" onClick={() => setIsSettingsOpen(true)}>
             <Settings size={18} />
             Parâmetros
@@ -196,11 +196,11 @@ export default function Catalog() {
           <button className="btn btn-secondary" onClick={openNewModal}>Adicionar ao Catálogo</button>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--spacing-4)' }}>
+        <div className="parts-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--spacing-4)' }}>
           {parts.map(part => {
             const costs = calculateCost(part.weight, part.print_time, part.spool_price, part.extra_costs, part.custom_margin);
             return (
-              <div key={part.id} className="card" style={{ display: 'flex', flexDirection: 'column', width: '320px', padding: 'var(--spacing-6)' }}>
+              <div key={part.id} className="card" style={{ display: 'flex', flexDirection: 'column', flex: '1 1 300px', maxWidth: '100%', padding: 'var(--spacing-6)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--spacing-4)' }}>
                   <h3 style={{ margin: 0, fontSize: '1.125rem' }}>{part.name}</h3>
                   <div style={{ display: 'flex', gap: '4px' }}>

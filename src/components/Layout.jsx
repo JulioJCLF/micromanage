@@ -29,8 +29,8 @@ export default function Layout() {
   return (
     <div className="app-container">
       {/* Sidebar */}
-      <aside style={{ width: '250px', backgroundColor: 'var(--bg-sidebar)', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ padding: 'var(--spacing-6)', borderBottom: '1px solid var(--border-light)' }}>
+      <aside className="sidebar" style={{ width: '250px', backgroundColor: 'var(--bg-sidebar)', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
+        <div className="sidebar-header" style={{ padding: 'var(--spacing-6)', borderBottom: '1px solid var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', fontWeight: 600, fontSize: '1.125rem' }}>
             <div style={{ backgroundColor: 'var(--primary)', color: 'white', padding: 'var(--spacing-1)', borderRadius: 'var(--radius-sm)' }}>
               <Briefcase size={20} />
@@ -39,8 +39,8 @@ export default function Layout() {
           </div>
         </div>
 
-        <nav style={{ flex: 1, padding: 'var(--spacing-4)' }}>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-1)' }}>
+        <nav style={{ flex: 1, padding: 'var(--spacing-4)', display: 'flex', alignItems: 'center' }}>
+          <ul className="sidebar-nav" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-1)', width: '100%', margin: 0, padding: 0 }}>
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -69,9 +69,9 @@ export default function Layout() {
           </ul>
         </nav>
 
-        <div style={{ padding: 'var(--spacing-4)', borderTop: '1px solid var(--border-light)' }}>
+        <div className="sidebar-footer" style={{ padding: 'var(--spacing-4)', borderTop: '1px solid var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', marginBottom: 'var(--spacing-4)' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.875rem' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.875rem', flexShrink: 0 }}>
               {(user?.user_metadata?.name || user?.name || user?.email || 'U')[0].toUpperCase()}
             </div>
             <div style={{ overflow: 'hidden' }}>

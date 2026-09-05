@@ -293,3 +293,82 @@ body.dark {
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
 }
+
+/* Responsiveness Media Queries */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column-reverse;
+  }
+  
+  .sidebar {
+    width: 100% !important;
+    height: 60px !important;
+    flex-direction: row !important;
+    border-right: none !important;
+    border-top: 1px solid var(--border-color);
+    padding: 0 !important;
+  }
+  
+  .sidebar-header, .sidebar-footer {
+    display: none !important;
+  }
+  
+  .sidebar-nav {
+    flex-direction: row !important;
+    width: 100%;
+    padding: 0 var(--spacing-2) !important;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .sidebar-nav li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .sidebar-nav a {
+    flex-direction: column !important;
+    padding: var(--spacing-2) !important;
+    gap: var(--spacing-1) !important;
+    font-size: 0.65rem !important;
+  }
+
+  .page-container {
+    padding: var(--spacing-4) !important;
+  }
+  
+  /* Project/Catalog Grids */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Flex containers that might need wrapping */
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: var(--spacing-2);
+  }
+  
+  .header-actions button {
+    width: 100%;
+  }
+
+  /* Catalog Parts List */
+  .parts-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Kanban board should be horizontally scrollable on mobile */
+  .kanban-board {
+    overflow-x: auto;
+    padding-bottom: var(--spacing-4);
+    scroll-snap-type: x mandatory;
+  }
+  
+  .kanban-column {
+    min-width: 85vw;
+    scroll-snap-align: center;
+  }
+}

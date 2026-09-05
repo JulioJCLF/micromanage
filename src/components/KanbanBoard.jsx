@@ -115,12 +115,13 @@ export default function KanbanBoard({ projectId }) {
   if (loading) return <div>Carregando quadro...</div>;
 
   return (
-    <div className="no-scrollbar" style={{ display: 'flex', gap: 'var(--spacing-4)', height: '100%', overflowX: 'auto', paddingBottom: 'var(--spacing-4)' }}>
+    <div className="no-scrollbar kanban-board" style={{ display: 'flex', gap: 'var(--spacing-4)', height: '100%', overflowX: 'auto', paddingBottom: 'var(--spacing-4)' }}>
       {columns.map(column => {
         const columnCards = cards.filter(c => c.column_id === column.id);
         return (
           <div 
             key={column.id} 
+            className="kanban-column"
             style={{ 
               width: '320px', 
               minWidth: '320px', 

@@ -65,9 +65,11 @@ export default function ProjectDetail() {
           {project.description && <p style={{ marginTop: 'var(--spacing-2)' }}>{project.description}</p>}
         </div>
         
-        <button className="btn btn-secondary" onClick={() => setIsSettingsOpen(true)}>
-          <Settings size={18} /> Configurações do Projeto
-        </button>
+        <div className="header-actions" style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
+          <button className="btn btn-secondary" onClick={() => setIsSettingsOpen(true)}>
+            <Settings size={18} /> Configurações do Projeto
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
